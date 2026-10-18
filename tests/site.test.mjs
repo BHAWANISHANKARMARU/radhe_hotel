@@ -33,3 +33,16 @@ test("Chakra UI provider wraps the application", () => {
   assert.match(layout, /<Provider>/);
   assert.match(provider, /ChakraProvider/);
 });
+
+test("booking is an honest adaptive tactile enquiry ledger", () => {
+  const source = readFileSync(join(root, "src/components/BookingForm.tsx"), "utf8");
+  assert.match(source, /bookingLedger/);
+  assert.match(source, /ledgerPaper/);
+  assert.match(source, /tactileField/);
+  assert.match(source, /aria-selected=\{type === item\.value\}/);
+  assert.match(source, /Please complete the required details/);
+  assert.match(source, /Check-out must be after check-in/);
+  assert.match(source, /No booking has been confirmed/);
+  assert.match(source, /encodeURIComponent\(message\)/);
+  assert.match(source, /Preferred date/);
+});

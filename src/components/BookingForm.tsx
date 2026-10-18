@@ -34,18 +34,21 @@ export default function BookingForm({ compact = false }: { compact?: boolean }) 
     <Flex gap="3" wrap="wrap"><a className="primaryAction" href={whatsAppUrl}>Open WhatsApp <span>↗</span></a><Button variant="ghost" onClick={() => setStatus("idle")}>Edit details</Button></Flex>
   </Box>;
 
-  return <Box asChild><form className={`bookingPanel ${compact ? "compact" : ""}`} onSubmit={submit} noValidate>
+  return <Box asChild><form className={`bookingPanel bookingLedger material-leather ${compact ? "compact" : ""}`} onSubmit={submit} noValidate>
+    <div className="ledgerHeading"><span>Reservations</span><small>Radhe Hotel & Restaurant</small></div>
+    <div className="ledgerPaper material-paper">
     <Flex className="bookingTypes" role="tablist" aria-label="Enquiry type">
       {types.map(item => <Button key={item.value} type="button" role="tab" aria-selected={type === item.value} onClick={() => changeType(item.value)}>{item.label}</Button>)}
     </Flex>
     <div className="bookingFields" key={type}>
-      <label><span>{type === "stay" ? "Check-in" : "Preferred date"}</span><Input type="date" value={payload.start} onChange={e => setPayload({ ...payload, start: e.target.value })} required /></label>
-      {type === "stay" && <label><span>Check-out</span><Input type="date" value={payload.end} onChange={e => setPayload({ ...payload, end: e.target.value })} required /></label>}
-      <label><span>Guests</span><select value={payload.guests} onChange={e => setPayload({ ...payload, guests: e.target.value })} required><option value="">Select</option><option value="1–2">1–2</option><option value="3–4">3–4</option><option value="5–10">5–10</option><option value="More than 10">More than 10</option></select></label>
-      {!compact && <label><span>Your name <small>Optional</small></span><Input value={payload.name} onChange={e => setPayload({ ...payload, name: e.target.value })} placeholder="How should we address you?" /></label>}
+      <label><span>{type === "stay" ? "Check-in" : "Preferred date"}</span><Input className="tactileField" type="date" value={payload.start} onChange={e => setPayload({ ...payload, start: e.target.value })} required /></label>
+      {type === "stay" && <label><span>Check-out</span><Input className="tactileField" type="date" value={payload.end} onChange={e => setPayload({ ...payload, end: e.target.value })} required /></label>}
+      <label><span>Guests</span><select className="tactileField" value={payload.guests} onChange={e => setPayload({ ...payload, guests: e.target.value })} required><option value="">Select</option><option value="1–2">1–2</option><option value="3–4">3–4</option><option value="5–10">5–10</option><option value="More than 10">More than 10</option></select></label>
+      {!compact && <label><span>Your name <small>Optional</small></span><Input className="tactileField" value={payload.name} onChange={e => setPayload({ ...payload, name: e.target.value })} placeholder="How should we address you?" /></label>}
       <Button className="bookingSubmit" type="submit">Prepare enquiry <span>↗</span></Button>
     </div>
     {error && <p className="formError" role="alert">{error}</p>}
     {!compact && <p className="formTruth">This prepares a WhatsApp enquiry. Availability is confirmed personally by the Radhe team.</p>}
+    </div>
   </form></Box>;
 }
