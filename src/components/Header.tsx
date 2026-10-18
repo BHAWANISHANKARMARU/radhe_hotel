@@ -28,13 +28,13 @@ export default function Header() {
         <Image src="/images/radhe-logo.png" width={64} height={50} alt="" priority />
         <span><strong>Radhe</strong><small>Hotel & Restaurant</small></span>
       </Link>
-      <Flex as="nav" className="desktopNav" aria-label="Primary navigation">
+      <Flex as="nav" className="desktopNav engravedNav" aria-label="Primary navigation">
         {nav.map(([label, href]) => <Link key={href} className={pathname === href ? "active" : ""} href={href}>{label}</Link>)}
       </Flex>
-      <Link className="headerBook" href="/book">Book a stay <span aria-hidden="true">↗</span></Link>
+      <Link className="headerBook tactileButton tactile-brass" href="/book">Book a stay <span className="brassStud" aria-hidden="true">•</span></Link>
       <Button className="menuToggle" variant="ghost" aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open} aria-controls="mobile-navigation" onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</Button>
     </Flex>
-    <nav id="mobile-navigation" className={`mobileNav ${open ? "open" : ""}`} aria-hidden={!open} aria-label="Mobile navigation">
+    <nav id="mobile-navigation" className={`mobileNav guestBookNav material-leather ${open ? "open" : ""}`} aria-hidden={!open} aria-label="Mobile navigation">
       {nav.map(([label, href], index) => <Link onClick={() => setOpen(false)} ref={index === 0 ? firstLink : undefined} tabIndex={open ? 0 : -1} key={href} href={href}><span>0{index + 1}</span>{label}</Link>)}
       <Link onClick={() => setOpen(false)} tabIndex={open ? 0 : -1} className="mobileBook" href="/book">Book or enquire <span>↗</span></Link>
     </nav>

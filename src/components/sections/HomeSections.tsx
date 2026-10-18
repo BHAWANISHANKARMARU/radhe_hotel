@@ -15,8 +15,8 @@ export function HeroSection() {
   return <><section className="heroSection">
     <Image className="heroImage" src="/images/radhe-exterior.png" alt="" fill priority sizes="100vw"/>
     <div className="heroOverlay"/>
-    <div className="heroContent">
-      <Text className="heroEyebrow">NH-11 · Sridungargarh · Rajasthan</Text>
+    <div className="heroContent heroFolio material-paper">
+      <Text className="heroEyebrow locationPlate">NH-11 · Sridungargarh · Rajasthan</Text>
       <h1>Your journey deserves a beautiful pause.</h1>
       <p>Thoughtful stays, pure vegetarian dining, and warm Rajasthani hospitality on NH-11, Sridungargarh.</p>
       <Flex className="heroActions"><Link className="primaryAction" href="/book">Book a stay <span>↗</span></Link><Link className="secondaryAction light" href="/dining">Explore dining</Link></Flex>
@@ -30,7 +30,8 @@ export function IntroSection() {
 }
 
 export function ExperiencesSection() {
-  return <section className="experiencesSection"><Reveal><SectionHeading eyebrow="Three ways to arrive" title="Stay. Dine. Celebrate." intro="Choose the Radhe experience that brings you here."/></Reveal><div className="experienceGrid">{experiences.map((item,index)=><Reveal key={item.href} delay={index*80} className={`experienceCard experience-${index+1}`}><Link href={item.href}><div className="experienceImage"><Image src={item.image} alt={item.label === "Stay" ? "A guest room with warm Indian details" : item.label === "Dining" ? "A welcoming vegetarian restaurant interior" : "An atmospheric courtyard arranged for gathering"} fill sizes="(max-width: 800px) 100vw, 34vw"/></div><Text className="eyebrow">{item.label}</Text><h3>{item.title}</h3><p>{item.copy}</p><span className="inlineArrow">Discover <ArrowRight/></span></Link></Reveal>)}</div></section>;
+  const materialClasses = ["experience-roomFolio", "experience-menuCover", "experience-invitation"];
+  return <section className="experiencesSection"><Reveal><SectionHeading eyebrow="Three ways to arrive" title="Stay. Dine. Celebrate." intro="Choose the Radhe experience that brings you here."/></Reveal><div className="experienceGrid">{experiences.map((item,index)=><Reveal key={item.href} delay={index*80} className={`experienceCard experience-${index+1} ${materialClasses[index]}`}><Link href={item.href}><div className="experienceImage"><Image src={item.image} alt={item.label === "Stay" ? "A guest room with warm Indian details" : item.label === "Dining" ? "A welcoming vegetarian restaurant interior" : "An atmospheric courtyard arranged for gathering"} fill sizes="(max-width: 800px) 100vw, 34vw"/></div><Text className="eyebrow">{item.label}</Text><h3>{item.title}</h3><p>{item.copy}</p><span className="inlineArrow">Discover <ArrowRight/></span></Link></Reveal>)}</div></section>;
 }
 
 export function StaySection() {
@@ -38,11 +39,11 @@ export function StaySection() {
 }
 
 export function DiningSection() {
-  return <section className="diningSection"><Reveal className="diningCopy"><Text className="eyebrow">The restaurant</Text><h2>Vegetarian food, served with warmth.</h2><p>Radhe’s restaurant is a place to pause, share a meal and enjoy familiar flavours in a welcoming setting. For today’s menu or a table enquiry, speak directly with our team.</p><Flex className="sectionActions"><ArrowLink href="/dining">Explore dining</ArrowLink><a className="subtleLink" href={contact.whatsapp}>Ask for today’s menu ↗</a></Flex></Reveal><Reveal className="diningImages" delay={100}><div className="diningMain"><Image src="/images/radhe-dining-room.png" alt="A warm restaurant dining room prepared for families" fill sizes="(max-width: 800px) 100vw, 48vw"/></div><div className="diningDetail"><Image src="/images/rajasthani-thali.png" alt="A vegetarian meal served in traditional brassware" fill sizes="220px"/></div></Reveal></section>;
+  return <section className="diningSection diningMenu"><Reveal className="diningCopy"><Text className="eyebrow">The restaurant</Text><h2>Vegetarian food, served with warmth.</h2><p>Radhe’s restaurant is a place to pause, share a meal and enjoy familiar flavours in a welcoming setting. For today’s menu or a table enquiry, speak directly with our team.</p><Flex className="sectionActions"><ArrowLink href="/dining">Explore dining</ArrowLink><a className="subtleLink" href={contact.whatsapp}>Ask for today’s menu ↗</a></Flex></Reveal><Reveal className="diningImages" delay={100}><div className="diningMain"><Image src="/images/radhe-dining-room.png" alt="A warm restaurant dining room prepared for families" fill sizes="(max-width: 800px) 100vw, 48vw"/></div><div className="diningDetail"><Image src="/images/rajasthani-thali.png" alt="A vegetarian meal served in traditional brassware" fill sizes="220px"/></div></Reveal></section>;
 }
 
 export function EventSection() {
-  return <section className="eventSection"><Image src="/images/radhe-dining-room.png" alt="" fill sizes="100vw"/><div className="eventOverlay"/><Reveal className="eventCopy"><Text className="eyebrow">Celebrations at Radhe</Text><h2>For the moments that bring everyone together.</h2><p>Planning a family celebration or private gathering? Share the occasion and guest count with our team, and we’ll help you explore the right arrangement.</p><Link className="primaryAction ivory" href="/celebrations">Plan a celebration <span>↗</span></Link></Reveal></section>;
+  return <section className="eventSection"><Image src="/images/radhe-dining-room.png" alt="" fill sizes="100vw"/><div className="eventOverlay"/><Reveal className="eventCopy eventInvitation material-paper"><Text className="eyebrow">Celebrations at Radhe</Text><h2>For the moments that bring everyone together.</h2><p>Planning a family celebration or private gathering? Share the occasion and guest count with our team, and we’ll help you explore the right arrangement.</p><Link className="primaryAction ivory" href="/celebrations">Plan a celebration <span>↗</span></Link></Reveal></section>;
 }
 
 export function StorySection() {

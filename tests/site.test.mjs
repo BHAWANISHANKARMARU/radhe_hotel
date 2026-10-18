@@ -46,3 +46,18 @@ test("booking is an honest adaptive tactile enquiry ledger", () => {
   assert.match(source, /encodeURIComponent\(message\)/);
   assert.match(source, /Preferred date/);
 });
+
+test("homepage composes engraved navigation and distinct physical materials", () => {
+  const header = readFileSync(join(root, "src/components/Header.tsx"), "utf8");
+  const home = readFileSync(join(root, "src/components/sections/HomeSections.tsx"), "utf8");
+  assert.match(header, /engravedNav/);
+  assert.match(header, /guestBookNav/);
+  assert.match(header, /brassStud/);
+  assert.match(home, /heroFolio/);
+  assert.match(home, /locationPlate/);
+  assert.match(home, /experience-roomFolio/);
+  assert.match(home, /experience-menuCover/);
+  assert.match(home, /experience-invitation/);
+  assert.match(home, /diningMenu/);
+  assert.match(home, /eventInvitation/);
+});
