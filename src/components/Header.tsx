@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { Box, Button, Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -9,34 +9,29 @@ import { nav } from "@/data/site";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const firstLink = useRef<HTMLAnchorElement>(null);
   const pathname = usePathname();
-  const overlaysHero = pathname === "/";
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 32);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
   useEffect(() => { if (open) firstLink.current?.focus(); }, [open]);
-
-  return <Box as="header" className={`siteHeader ${overlaysHero && !scrolled ? "over-hero" : "solid"}`}>
+  useEffect(() => {
+    const close = (event: KeyboardEvent) => { if (event.key === "Escape") setOpen(false); };
+    window.addEventListener("keydown", close);
+    return () => window.removeEventListener("keydown", close);
+  }, []);
+  return <Box as="header" className="siteHeader">
     <Flex className="headerInner">
       <Link className="identity" href="/" aria-label="Radhe Hotel and Restaurant home">
-        <Image src="/images/radhe-logo.png" width={64} height={50} alt="" priority />
+        <Image src="/images/radhe-logo.png" width={54} height={42} alt="" priority />
         <span><strong>Radhe</strong><small>Hotel & Restaurant</small></span>
       </Link>
       <Flex as="nav" className="desktopNav" aria-label="Primary navigation">
-        {nav.map(([label, href]) => <Link key={href} className={pathname === href ? "active" : ""} href={href}>{label}</Link>)}
+        {nav.map(([label, href]) => <Link key={href} aria-current={pathname === href ? "page" : undefined} href={href}>{label}</Link>)}
       </Flex>
-      <Link className="headerBook" href="/book">Book a stay <span aria-hidden="true">↗</span></Link>
-      <Button className="menuToggle" variant="ghost" aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open} aria-controls="mobile-navigation" onClick={() => setOpen(!open)}>{open ? <X /> : <Menu />}</Button>
+      <Link className="button buttonPrimary headerBook" href="/book">Book a stay</Link>
+      <button className="menuToggle" type="button" aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open} aria-controls="mobile-navigation" onClick={() => setOpen(value => !value)}>{open ? <X /> : <Menu />}</button>
     </Flex>
     <nav id="mobile-navigation" className={`mobileNav ${open ? "open" : ""}`} aria-hidden={!open} aria-label="Mobile navigation">
-      {nav.map(([label, href], index) => <Link onClick={() => setOpen(false)} ref={index === 0 ? firstLink : undefined} tabIndex={open ? 0 : -1} key={href} href={href}><span>0{index + 1}</span>{label}</Link>)}
-      <Link onClick={() => setOpen(false)} tabIndex={open ? 0 : -1} className="mobileBook" href="/book">Book or enquire <span>↗</span></Link>
+      {nav.map(([label, href], index) => <Link onClick={() => setOpen(false)} ref={index === 0 ? firstLink : undefined} tabIndex={open ? 0 : -1} key={href} aria-current={pathname === href ? "page" : undefined} href={href}>{label}</Link>)}
+      <Link onClick={() => setOpen(false)} tabIndex={open ? 0 : -1} className="button buttonPrimary" href="/book">Book or enquire</Link>
     </nav>
   </Box>;
 }

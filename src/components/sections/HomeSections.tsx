@@ -1,56 +1,41 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Flex, Text } from "@chakra-ui/react";
 import { ArrowRight, MapPin, Phone } from "lucide-react";
-import BookingForm from "@/components/BookingForm";
-import GallerySection from "@/components/gallery/GallerySection";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Reveal } from "@/components/ui/Reveal";
-import { experiences } from "@/data/content";
 import { contact } from "@/data/site";
 
-const ArrowLink = ({ href, children }: { href: string; children: React.ReactNode }) => <Link className="textAction" href={href}>{children}<ArrowRight aria-hidden="true"/></Link>;
+const TextLink = ({ href, children, light = false }: { href: string; children: React.ReactNode; light?: boolean }) => <Link className={`textLink ${light ? "light" : ""}`} href={href}>{children}<ArrowRight aria-hidden="true" /></Link>;
 
 export function HeroSection() {
-  return <><section className="heroSection">
-    <Image className="heroImage" src="/images/radhe-exterior.png" alt="" fill priority sizes="100vw"/>
-    <div className="heroOverlay"/>
-    <div className="heroContent">
-      <Text className="heroEyebrow">NH-11 · Sridungargarh · Rajasthan</Text>
-      <h1>Your journey deserves a beautiful pause.</h1>
-      <p>Thoughtful stays, pure vegetarian dining, and warm Rajasthani hospitality on NH-11, Sridungargarh.</p>
-      <Flex className="heroActions"><Link className="primaryAction" href="/book">Book a stay <span>↗</span></Link><Link className="secondaryAction light" href="/dining">Explore dining</Link></Flex>
+  return <section className="arrivalHero">
+    <div className="arrivalIntro sectionShell">
+      <p className="arrivalPlace"><span>NH-11</span><span>Sridungargarh</span><span>Rajasthan</span></p>
+      <h1>Your journey deserves<br className="desktopBreak" /> a beautiful pause.</h1>
+      <div className="arrivalSummary"><p>Thoughtful stays, pure vegetarian dining, and warm Rajasthani hospitality on NH-11, Sridungargarh.</p><div><Link className="button buttonPrimary" href="/book">Book a stay</Link><TextLink href="/dining">Explore dining</TextLink></div></div>
     </div>
-    <div className="heroCaption"><span>Radhe Hotel & Restaurant</span><span>Bikaner, Rajasthan</span></div>
-  </section><div className="bookingWrap"><BookingForm compact/></div></>;
+    <figure className="arrivalImage"><Image src="/images/radhe-exterior.png" alt="Radhe Hotel and Restaurant illuminated at dusk beside NH-11" fill priority sizes="100vw" /><figcaption><span>Radhe Hotel & Restaurant</span><span>Stay · Dine · Gather</span></figcaption></figure>
+  </section>;
 }
 
-export function IntroSection() {
-  return <section className="introSection"><Reveal className="introImage"><Image src="/images/rajasthani-thali.png" alt="A vegetarian Rajasthani meal served in brass bowls" fill sizes="(max-width: 800px) 100vw, 42vw"/><span>Pure vegetarian dining</span></Reveal><Reveal className="introCopy" delay={100}><SectionHeading eyebrow="Welcome to Radhe" title="A warm pause, thoughtfully made."/><p>Radhe brings together a comfortable stay, pure vegetarian dining and space for family celebrations—conveniently placed for travellers and the local community.</p><p>Our approach is simple: make every visit feel considered, comfortable and genuinely welcoming.</p><ArrowLink href="/about">Our story</ArrowLink></Reveal></section>;
-}
-
-export function ExperiencesSection() {
-  return <section className="experiencesSection"><Reveal><SectionHeading eyebrow="Three ways to arrive" title="Stay. Dine. Celebrate." intro="Choose the Radhe experience that brings you here."/></Reveal><div className="experienceGrid">{experiences.map((item,index)=><Reveal key={item.href} delay={index*80} className={`experienceCard experience-${index+1}`}><Link href={item.href}><div className="experienceImage"><Image src={item.image} alt={item.label === "Stay" ? "A guest room with warm Indian details" : item.label === "Dining" ? "A welcoming vegetarian restaurant interior" : "An atmospheric courtyard arranged for gathering"} fill sizes="(max-width: 800px) 100vw, 34vw"/></div><Text className="eyebrow">{item.label}</Text><h3>{item.title}</h3><p>{item.copy}</p><span className="inlineArrow">Discover <ArrowRight/></span></Link></Reveal>)}</div></section>;
+export function WelcomeSection() {
+  return <section className="welcomePassage sectionShell"><p className="chapterMark">A place to pause</p><div><h2>Made for the road ahead—and the people around your table.</h2><p>Radhe brings together comfortable stays, pure vegetarian dining and space for family celebrations. Our approach is simple: make every visit feel considered, comfortable and genuinely welcoming.</p></div></section>;
 }
 
 export function StaySection() {
-  return <section className="staySection"><Reveal className="stayVisual"><Image src="/images/heritage-room.png" alt="A calm guest room styled with Indian textiles" fill sizes="(max-width: 800px) 100vw, 58vw"/><div className="imageNote"><span>Stay at Radhe</span><small>Enquire directly for room details and availability</small></div></Reveal><Reveal className="stayEditorial" delay={100}><Text className="eyebrow">Rooms & stays</Text><h2>Rest that feels uncomplicated.</h2><p>Comfortable rooms offer a welcome pause for overnight guests and travellers along NH-11. Contact our team for the room option that best fits your visit.</p><div className="quietFacts"><span>Overnight stays</span><span>Direct enquiries</span><span>Restaurant on site</span></div><ArrowLink href="/stay">Explore your stay</ArrowLink></Reveal></section>;
+  return <section className="stayChapter"><div className="stayChapterTitle sectionShell"><p className="chapterMark">Rooms & stays</p><h2>Settle into your own rhythm.</h2><TextLink href="/stay">See your stay</TextLink></div><figure className="roomPanorama"><Image src="/images/heritage-room.png" alt="Comfortable Radhe guest room with warm Indian textiles" fill sizes="100vw" /></figure><div className="stayFoot sectionShell"><p>Comfortable rooms for overnight guests, travellers along NH-11, and visitors spending time in Sridungargarh.</p><Link href="/book">Enquire for your dates <ArrowRight /></Link></div></section>;
 }
 
 export function DiningSection() {
-  return <section className="diningSection"><Reveal className="diningCopy"><Text className="eyebrow">The restaurant</Text><h2>Vegetarian food, served with warmth.</h2><p>Radhe’s restaurant is a place to pause, share a meal and enjoy familiar flavours in a welcoming setting. For today’s menu or a table enquiry, speak directly with our team.</p><Flex className="sectionActions"><ArrowLink href="/dining">Explore dining</ArrowLink><a className="subtleLink" href={contact.whatsapp}>Ask for today’s menu ↗</a></Flex></Reveal><Reveal className="diningImages" delay={100}><div className="diningMain"><Image src="/images/radhe-dining-room.png" alt="A warm restaurant dining room prepared for families" fill sizes="(max-width: 800px) 100vw, 48vw"/></div><div className="diningDetail"><Image src="/images/rajasthani-thali.png" alt="A vegetarian meal served in traditional brassware" fill sizes="220px"/></div></Reveal></section>;
+  return <section className="tableChapter"><div className="tableLead sectionShell"><p className="chapterMark light">At the table</p><h2>Pure vegetarian food.<br />Time to enjoy it.</h2><p>Visit for a meal, pause during a journey, or bring the family together. Contact the restaurant directly for the current menu and group arrangements.</p></div><div className="tableImages"><figure className="restaurantFrame"><Image src="/images/radhe-dining-room.png" alt="Radhe's warm vegetarian restaurant dining room" fill sizes="(max-width: 760px) 100vw, 68vw" /></figure><figure className="thaliFrame"><Image src="/images/rajasthani-thali.png" alt="Vegetarian Rajasthani meal served in brass bowls" fill sizes="(max-width: 760px) 75vw, 28vw" /><figcaption>Pure vegetarian dining</figcaption></figure></div><div className="tableLinks sectionShell"><TextLink href="/dining" light>Explore the restaurant</TextLink><a href={contact.whatsapp}>Ask for today’s menu <ArrowRight /></a></div></section>;
 }
 
-export function EventSection() {
-  return <section className="eventSection"><Image src="/images/radhe-dining-room.png" alt="" fill sizes="100vw"/><div className="eventOverlay"/><Reveal className="eventCopy"><Text className="eyebrow">Celebrations at Radhe</Text><h2>For the moments that bring everyone together.</h2><p>Planning a family celebration or private gathering? Share the occasion and guest count with our team, and we’ll help you explore the right arrangement.</p><Link className="primaryAction ivory" href="/celebrations">Plan a celebration <span>↗</span></Link></Reveal></section>;
+export function CelebrationSection() {
+  return <section className="gatherChapter sectionShell"><div className="gatherStatement"><p className="chapterMark">Celebrations</p><h2>Bring your people. We’ll begin with a conversation.</h2></div><figure><Image src="/images/courtyard-hero.png" alt="Radhe courtyard arranged for an evening gathering" fill sizes="(max-width: 760px) 100vw, 72vw" /></figure><div className="gatherDetails"><p>For family celebrations and private gathering enquiries, share the occasion, preferred date and expected guest count with the Radhe team.</p><Link className="button buttonPrimary" href="/celebrations">Plan a celebration</Link></div></section>;
 }
 
-export function StorySection() {
-  return <section className="storySection"><Reveal><Text className="eyebrow">Our point of view</Text><blockquote>“Hospitality is not about excess. It is about noticing what makes someone feel at ease.”</blockquote></Reveal><Reveal className="storyText" delay={100}><p>Radhe is a contemporary hospitality address rooted in the warmth of Rajasthan. We welcome travellers, diners and families with the same intention: a comfortable experience, thoughtfully presented.</p><ArrowLink href="/about">Read our story</ArrowLink></Reveal></section>;
+export function GlimpseSection() {
+  return <section className="glimpseChapter"><div className="glimpseHeading sectionShell"><p className="chapterMark">A closer look</p><h2>One address, several ways to arrive.</h2><TextLink href="/gallery">Open the gallery</TextLink></div><div className="glimpseSequence"><figure><Image src="/images/radhe-exterior.png" alt="Radhe exterior at dusk" fill sizes="50vw" /></figure><figure><Image src="/images/rajasthani-thali.png" alt="Vegetarian Rajasthani meal" fill sizes="26vw" /></figure><figure><Image src="/images/radhe-dining-room.png" alt="Radhe restaurant interior" fill sizes="38vw" /></figure></div></section>;
 }
 
-export function LocationSection() {
-  return <section className="locationSection"><div className="locationMap" aria-hidden="true"><span className="road roadOne"/><span className="road roadTwo"/><MapPin/><b>Radhe</b><small>NH-11 · Sridungargarh</small></div><Reveal className="locationCopy"><SectionHeading eyebrow="Find us" title="Well placed for the road ahead."/><p>{contact.address}</p><div className="contactActions"><a className="primaryAction" href="https://maps.google.com/?q=Vasundhara+Nagar+Sridungargarh+Bikaner">Get directions <span>↗</span></a><a className="phoneAction" href={contact.tel}><Phone/> {contact.phone}</a></div></Reveal></section>;
+export function ClosingSection() {
+  return <section className="closingChapter"><div className="closingStory"><p className="chapterMark light">Our approach</p><h2>Warm hospitality, without complication.</h2><p>A comfortable place to pause. A vegetarian meal shared at ease. A celebration planned through a real conversation.</p><TextLink href="/about" light>Our story</TextLink></div><div className="closingAddress"><MapPin /><p className="chapterMark">Find Radhe</p><h3>On NH-11, in Sridungargarh.</h3><p>{contact.address}</p><div><a className="button buttonPrimary" href="https://maps.google.com/?q=Vasundhara+Nagar+Sridungargarh+Bikaner">Get directions</a><a href={contact.tel}><Phone />{contact.phone}</a></div></div></section>;
 }
-
-export { GallerySection };

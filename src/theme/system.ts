@@ -4,20 +4,23 @@ const config = defineConfig({
   theme: {
     tokens: {
       colors: {
-        ivory: { value: "#F7F4EC" },
-        sandstone: { value: "#EAE2D4" },
-        charcoal: { value: "#242720" },
-        forest: { value: "#243E32" },
-        brass: { value: "#B49A68" },
-        warmBorder: { value: "#DAD5CA" },
+        brand: { value: "#123B32" },
+        brandHover: { value: "#0C2E27" },
+        canvas: { value: "#FAF9F5" },
+        surface: { value: "#FFFFFF" },
+        ink: { value: "#1E2723" },
+        muted: { value: "#65716B" },
+        line: { value: "#E6E5DF" },
+        sage: { value: "#DDE5E0" },
+        warm: { value: "#B98558" },
+        danger: { value: "#9B3D35" },
       },
       fonts: {
-        heading: { value: "var(--font-editorial), Georgia, serif" },
-        body: { value: "var(--font-interface), Arial, sans-serif" },
+        heading: { value: "var(--font-manrope), Arial, sans-serif" },
+        body: { value: "var(--font-inter), Arial, sans-serif" },
       },
-      radii: {
-        editorial: { value: "2px" },
-      },
+      radii: { control: { value: "8px" }, media: { value: "12px" } },
+      shadows: { lift: { value: "0 18px 50px rgba(18, 59, 50, 0.10)" } },
     },
   },
 });

@@ -1,51 +1,41 @@
 "use client";
-import { FormEvent, useMemo, useState } from "react";
-import { Box, Button, Flex, Input, Text } from "@chakra-ui/react";
-import { contact } from "@/data/site";
+import { FormEvent, useState } from "react";
+import { Button, Input } from "@chakra-ui/react";
+import { ArrowUpRight, Check } from "lucide-react";
+import { buildWhatsAppEnquiry, validateEnquiry } from "@/lib/enquiry.mjs";
 
 type EnquiryType = "stay" | "dining" | "celebration";
+type EnquiryDetails = { start: string; end: string; guests: string; name: string };
+
 const types: { value: EnquiryType; label: string }[] = [
   { value: "stay", label: "Stay" }, { value: "dining", label: "Dining" }, { value: "celebration", label: "Celebration" },
 ];
+const initial: EnquiryDetails = { start: "", end: "", guests: "", name: "" };
 
 export default function BookingForm({ compact = false }: { compact?: boolean }) {
   const [type, setType] = useState<EnquiryType>("stay");
-  const [status, setStatus] = useState<"idle" | "prepared">("idle");
-  const [error, setError] = useState("");
-  const [payload, setPayload] = useState({ start: "", end: "", guests: "", name: "" });
-  const whatsAppUrl = useMemo(() => {
-    const label = type === "stay" ? "room stay" : type === "dining" ? "dining table" : "celebration";
-    const dates = type === "stay" ? `Check-in: ${payload.start}, check-out: ${payload.end}` : `Preferred date: ${payload.start}`;
-    const message = `Namaste Radhe, I would like to enquire about a ${label}. ${dates}. Guests: ${payload.guests}.${payload.name ? ` Name: ${payload.name}.` : ""}`;
-    return `${contact.whatsapp}?text=${encodeURIComponent(message)}`;
-  }, [payload, type]);
-
-  function changeType(next: EnquiryType) { setType(next); setError(""); setStatus("idle"); }
+  const [details, setDetails] = useState(initial);
+  const [errors, setErrors] = useState<Partial<Record<"start" | "end" | "guests", string>>>({});
+  const [ready, setReady] = useState(false);
+  const today = new Date().toISOString().slice(0, 10);
+  function select(next: EnquiryType) { setType(next); setErrors({}); setReady(false); }
+  function update(name: keyof EnquiryDetails, value: string) { setDetails(current => ({ ...current, [name]: value })); setErrors(current => ({ ...current, [name]: undefined })); setReady(false); }
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!payload.start || !payload.guests || (type === "stay" && !payload.end)) { setError("Please complete the required details."); return; }
-    if (type === "stay" && payload.end <= payload.start) { setError("Check-out must be after check-in."); return; }
-    setError(""); setStatus("prepared");
+    const next = validateEnquiry(type, details);
+    setErrors(next);
+    setReady(Object.keys(next).length === 0);
   }
-
-  if (status === "prepared") return <Box className={`bookingPrepared ${compact ? "compact" : ""}`} role="status" aria-live="polite">
-    <Text className="eyebrow">Enquiry ready</Text><h3>Continue securely on WhatsApp.</h3>
-    <p>No booking has been confirmed and no payment is required. Send the prepared message to the existing Radhe number.</p>
-    <Flex gap="3" wrap="wrap"><a className="primaryAction" href={whatsAppUrl}>Open WhatsApp <span>↗</span></a><Button variant="ghost" onClick={() => setStatus("idle")}>Edit details</Button></Flex>
-  </Box>;
-
-  return <Box asChild><form className={`bookingPanel ${compact ? "compact" : ""}`} onSubmit={submit} noValidate>
-    <Flex className="bookingTypes" role="tablist" aria-label="Enquiry type">
-      {types.map(item => <Button key={item.value} type="button" role="tab" aria-selected={type === item.value} onClick={() => changeType(item.value)}>{item.label}</Button>)}
-    </Flex>
-    <div className="bookingFields" key={type}>
-      <label><span>{type === "stay" ? "Check-in" : "Preferred date"}</span><Input type="date" value={payload.start} onChange={e => setPayload({ ...payload, start: e.target.value })} required /></label>
-      {type === "stay" && <label><span>Check-out</span><Input type="date" value={payload.end} onChange={e => setPayload({ ...payload, end: e.target.value })} required /></label>}
-      <label><span>Guests</span><select value={payload.guests} onChange={e => setPayload({ ...payload, guests: e.target.value })} required><option value="">Select</option><option value="1–2">1–2</option><option value="3–4">3–4</option><option value="5–10">5–10</option><option value="More than 10">More than 10</option></select></label>
-      {!compact && <label><span>Your name <small>Optional</small></span><Input value={payload.name} onChange={e => setPayload({ ...payload, name: e.target.value })} placeholder="How should we address you?" /></label>}
-      <Button className="bookingSubmit" type="submit">Prepare enquiry <span>↗</span></Button>
+  if (ready) return <section className={`bookingReady ${compact ? "compact" : ""}`} role="status" aria-live="polite"><div className="readyIcon"><Check /></div><div><p className="kicker">Enquiry ready</p><h3>Continue with Radhe on WhatsApp</h3><p>This opens a prepared message. Availability is confirmed personally by the Radhe team; no booking or payment has been completed.</p><div className="readyActions"><a className="button buttonPrimary" href={buildWhatsAppEnquiry(type, details)}>Open WhatsApp <ArrowUpRight /></a><Button variant="plain" onClick={() => setReady(false)}>Edit details</Button></div></div></section>;
+  return <form className={`bookingForm ${compact ? "compact" : ""}`} onSubmit={submit} noValidate>
+    <div className="bookingHeader"><div><p className="kicker">Direct enquiry</p>{!compact && <h2>Tell us what you’re planning.</h2>}</div><div className="bookingTypes" role="group" aria-label="Enquiry type">{types.map(item => <Button key={item.value} type="button" aria-pressed={type === item.value} onClick={() => select(item.value)}>{item.label}</Button>)}</div></div>
+    <div className="bookingFields">
+      <label><span>{type === "stay" ? "Check-in" : "Preferred date"}</span><Input type="date" min={today} value={details.start} aria-invalid={!!errors.start} onChange={event => update("start", event.target.value)} />{errors.start && <small role="alert">{errors.start}</small>}</label>
+      {type === "stay" && <label><span>Check-out</span><Input type="date" min={details.start || today} value={details.end} aria-invalid={!!errors.end} onChange={event => update("end", event.target.value)} />{errors.end && <small role="alert">{errors.end}</small>}</label>}
+      <label><span>Guests</span><select value={details.guests} aria-invalid={!!errors.guests} onChange={event => update("guests", event.target.value)}><option value="">Select</option><option value="1–2">1–2</option><option value="3–4">3–4</option><option value="5–10">5–10</option><option value="More than 10">More than 10</option></select>{errors.guests && <small role="alert">{errors.guests}</small>}</label>
+      {!compact && <label><span>Your name <i>Optional</i></span><Input value={details.name} autoComplete="name" placeholder="Your name" onChange={event => update("name", event.target.value)} /></label>}
+      <Button className="button buttonPrimary bookingSubmit" type="submit">Prepare enquiry <ArrowUpRight /></Button>
     </div>
-    {error && <p className="formError" role="alert">{error}</p>}
-    {!compact && <p className="formTruth">This prepares a WhatsApp enquiry. Availability is confirmed personally by the Radhe team.</p>}
-  </form></Box>;
+    {!compact && <p className="formNote">This form prepares a WhatsApp message. It does not check live availability or confirm a booking.</p>}
+  </form>;
 }

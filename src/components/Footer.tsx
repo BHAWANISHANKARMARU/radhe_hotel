@@ -1,20 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { contact, nav } from "@/data/site";
 
 export default function Footer() {
   return <Box as="footer" className="siteFooter">
-    <Flex className="footerTop">
-      <div><Text className="eyebrow">Radhe Hotel & Restaurant</Text><h2>Your next pause<br/>begins here.</h2></div>
-      <Link className="footerEnquire" href="/book">Book or enquire <span>↗</span></Link>
-    </Flex>
+    <div className="footerCallout"><div><p className="kicker light">Plan your visit</p><h2>A comfortable stay, a good meal, or a reason to gather.</h2></div><Link className="button buttonLight" href="/book">Start an enquiry</Link></div>
     <div className="footerGrid">
-      <div className="footerBrand"><Image src="/images/radhe-logo.png" width={100} height={78} alt=""/><p>Thoughtful stays, pure vegetarian dining and warm hospitality in Sridungargarh.</p></div>
-      <div><b>Explore</b>{nav.slice(0,5).map(([label,href])=><Link key={href} href={href}>{label}</Link>)}</div>
-      <div><b>Enquiries</b><Link href="/stay">Rooms & stays</Link><Link href="/dining">Dining</Link><Link href="/celebrations">Celebrations</Link><a href={contact.whatsapp}>WhatsApp</a></div>
-      <div><b>Visit</b><p>{contact.address}</p><a href={contact.tel}>{contact.phone}</a><a href="https://maps.google.com/?q=Vasundhara+Nagar+Sridungargarh+Bikaner">Directions ↗</a></div>
+      <div className="footerBrand"><Link href="/" aria-label="Radhe home"><Image src="/images/radhe-logo.png" width={76} height={59} alt="" /></Link><p>Thoughtful stays and pure vegetarian dining on NH-11 in Sridungargarh.</p></div>
+      <div><b>Explore</b>{nav.map(([label,href])=><Link key={href} href={href}>{label}</Link>)}</div>
+      <div><b>Enquiries</b><a href={contact.tel}>{contact.phone}</a><a href={contact.whatsapp}>WhatsApp</a><Link href="/book">Book or enquire</Link></div>
+      <div><b>Visit</b><p>{contact.address}</p><a href="https://maps.google.com/?q=Vasundhara+Nagar+Sridungargarh+Bikaner">Open directions</a></div>
     </div>
-    <Flex className="footerBase"><span>© 2026 Radhe Hotel & Restaurant</span><span>Sridungargarh · Bikaner · Rajasthan</span></Flex>
+    <div className="footerBase"><span>© 2026 Radhe Hotel & Restaurant</span><span>Sridungargarh · Rajasthan</span></div>
   </Box>;
 }
