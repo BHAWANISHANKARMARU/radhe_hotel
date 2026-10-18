@@ -4,25 +4,23 @@ const config = defineConfig({
   theme: {
     tokens: {
       colors: {
-        parchment: { value: "#F3EBDD" }, lightPaper: { value: "#FBF7ED" }, agedPaper: { value: "#E6DAC3" },
-        forest: { value: "#244334" }, darkLeather: { value: "#172B22" }, greenHighlight: { value: "#45634D" },
-        brass: { value: "#B3975F" }, lightBrass: { value: "#D7BF87" }, deepBrass: { value: "#796039" },
-        walnut: { value: "#5A3A28" }, darkWalnut: { value: "#352319" },
-        ink: { value: "#282820" }, secondaryInk: { value: "#625D51" }, warmEdge: { value: "#C7B99E" }, engravedEdge: { value: "#A39273" },
+        brand: { value: "#123B32" },
+        brandHover: { value: "#0C2E27" },
+        canvas: { value: "#FAF9F5" },
+        surface: { value: "#FFFFFF" },
+        ink: { value: "#1E2723" },
+        muted: { value: "#65716B" },
+        line: { value: "#E6E5DF" },
+        sage: { value: "#DDE5E0" },
+        warm: { value: "#B98558" },
+        danger: { value: "#9B3D35" },
       },
       fonts: {
-        heading: { value: "var(--font-editorial), Georgia, serif" },
-        body: { value: "var(--font-interface), Arial, sans-serif" },
+        heading: { value: "var(--font-manrope), Arial, sans-serif" },
+        body: { value: "var(--font-inter), Arial, sans-serif" },
       },
-      radii: {
-        editorial: { value: "2px" },
-      },
-      shadows: {
-        ambient: { value: "0 18px 44px rgba(53,35,25,.14), 0 3px 8px rgba(53,35,25,.09)" },
-        raised: { value: "inset 0 1px rgba(255,255,255,.65), inset 0 -1px rgba(53,35,25,.22), 0 7px 14px rgba(53,35,25,.18)" },
-        recessed: { value: "inset 0 2px 5px rgba(53,35,25,.18), inset 0 -1px rgba(255,255,255,.7)" },
-        pressed: { value: "inset 0 3px 7px rgba(53,35,25,.28), 0 1px rgba(255,255,255,.35)" },
-      },
+      radii: { control: { value: "8px" }, media: { value: "12px" } },
+      shadows: { lift: { value: "0 18px 50px rgba(18, 59, 50, 0.10)" } },
     },
   },
 });
