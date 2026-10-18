@@ -61,3 +61,18 @@ test("homepage composes engraved navigation and distinct physical materials", ()
   assert.match(home, /diningMenu/);
   assert.match(home, /eventInvitation/);
 });
+
+test("secondary routes reuse the material system and preserve accessible gallery controls", () => {
+  const inner = readFileSync(join(root, "src/components/InnerPage.tsx"), "utf8");
+  const gallery = readFileSync(join(root, "src/components/gallery/GallerySection.tsx"), "utf8");
+  const footer = readFileSync(join(root, "src/components/Footer.tsx"), "utf8");
+  const contact = readFileSync(join(root, "src/app/contact/page.tsx"), "utf8");
+  assert.match(inner, /offeringFolio/);
+  assert.match(inner, /engravedNotes/);
+  assert.match(gallery, /albumMount/);
+  for (const label of ["Close gallery", "Previous image", "Next image"]) assert.match(gallery, new RegExp(label));
+  assert.match(footer, /guestBookFooter/);
+  assert.match(contact, /addressPlate/);
+  assert.match(contact, /contact\.address/);
+  assert.match(contact, /contact\.phone/);
+});

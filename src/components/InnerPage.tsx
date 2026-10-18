@@ -13,8 +13,8 @@ const content = {
 export default function InnerPage({ kind }: { kind: keyof typeof content }) {
   const page = content[kind];
   return <main className="offeringPage">
-    <section className="offeringHero"><Image src={page.image} alt={page.alt} fill priority sizes="100vw"/><div className="offeringOverlay"/><div className="offeringTitle"><Text className="eyebrow">{page.eyebrow}</Text><h1>{page.title}</h1><p>{page.intro}</p><Link className="primaryAction ivory" href="/book">Make an enquiry <span>↗</span></Link></div></section>
-    <section className="offeringIntro"><Reveal><Text className="eyebrow">At Radhe</Text><h2>{page.sectionTitle}</h2></Reveal><Reveal delay={100}><p>{page.body}</p><div className="offeringNotes">{page.notes.map(note=><span key={note}>{note}</span>)}</div></Reveal></section>
+    <section className={`offeringHero offering-${kind}`}><Image src={page.image} alt={page.alt} fill priority sizes="100vw"/><div className="offeringOverlay"/><div className="offeringTitle offeringFolio material-paper"><Text className="eyebrow">{page.eyebrow}</Text><h1>{page.title}</h1><p>{page.intro}</p><Link className="primaryAction" href="/book">Make an enquiry <span>↗</span></Link></div></section>
+    <section className="offeringIntro material-sandstone"><Reveal><Text className="eyebrow">At Radhe</Text><h2>{page.sectionTitle}</h2></Reveal><Reveal delay={100}><p>{page.body}</p><div className="offeringNotes engravedNotes">{page.notes.map(note=><span key={note}>{note}</span>)}</div></Reveal></section>
     <section className="offeringImageBreak"><Image src={kind === "dining" ? "/images/rajasthani-thali.png" : kind === "stay" ? "/images/radhe-exterior.png" : "/images/radhe-dining-room.png"} alt="" fill sizes="100vw"/></section>
     <section className="offeringEnquiry"><Reveal><Text className="eyebrow">Direct enquiry</Text><h2>Start with a few details.</h2><p>We will prepare a WhatsApp message for the existing Radhe contact number. The team will personally confirm availability and next steps.</p></Reveal><Reveal delay={100}><BookingForm/></Reveal></section>
   </main>;

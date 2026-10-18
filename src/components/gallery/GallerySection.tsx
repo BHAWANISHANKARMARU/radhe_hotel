@@ -15,7 +15,7 @@ export default function GallerySection({ full = false }: { full?: boolean }) {
   return <section className={`gallerySection ${full ? "full" : ""}`}>
     <Reveal><SectionHeading eyebrow="A glimpse of Radhe" title="Spaces made for a slower moment." intro="A visual introduction to staying, dining and gathering with us." /></Reveal>
     <div className="galleryMosaic">
-      {galleryImages.map((image, index) => <Reveal key={image.src} delay={index * 70} className={`galleryTile tile-${index + 1}`}>
+      {galleryImages.map((image, index) => <Reveal key={image.src} delay={index * 70} className={`galleryTile albumMount tile-${index + 1}`}>
         <button onClick={() => setActive(index)} aria-label={`Open image: ${image.caption}`}><Image src={image.src} alt={image.alt} fill sizes={index === 0 ? "(max-width: 800px) 100vw, 60vw" : "(max-width: 800px) 100vw, 35vw"}/><span>{image.caption}<i>View</i></span></button>
       </Reveal>)}
     </div>

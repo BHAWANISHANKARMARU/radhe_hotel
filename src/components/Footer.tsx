@@ -4,7 +4,7 @@ import { Box, Flex, Text } from "@chakra-ui/react";
 import { contact, nav } from "@/data/site";
 
 export default function Footer() {
-  return <Box as="footer" className="siteFooter">
+  return <Box as="footer" className="siteFooter guestBookFooter material-leather">
     <Flex className="footerTop">
       <div><Text className="eyebrow">Radhe Hotel & Restaurant</Text><h2>Your next pause<br/>begins here.</h2></div>
       <Link className="footerEnquire" href="/book">Book or enquire <span>↗</span></Link>
